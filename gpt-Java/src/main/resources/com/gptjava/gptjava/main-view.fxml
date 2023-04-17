@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gptjava.gptjava.MainController">
+   <children>
+      <ListView fx:id="conversationMenuListView" layoutX="20.0" layoutY="73.0" prefHeight="511.0" prefWidth="200.0" />
+      <Label layoutX="82.0" layoutY="44.0" prefHeight="17.0" prefWidth="86.0" text="Conversations" />
+      <TextField fx:id="questionTextField" layoutX="231.0" layoutY="596.0" prefHeight="50.0" prefWidth="580.0" />
+      <TextArea fx:id="conversationTextArea" layoutX="231.0" layoutY="73.0" prefHeight="511.0" prefWidth="749.0" />
+      <Button fx:id="sendButton" layoutX="820.0" layoutY="596.0" mnemonicParsing="false" onAction="#onSendButtonClicked" prefHeight="50.0" prefWidth="71.0" text="Send" />
+      <Button fx:id="saveButton" layoutX="909.0" layoutY="596.0" mnemonicParsing="false" onAction="#onSaveButtonClicked" prefHeight="50.0" prefWidth="71.0" text="Save" />
+      <Button fx:id="newConversationButton" layoutX="20.0" layoutY="596.0" mnemonicParsing="false" onAction="#onNewConversationButtonClicked" prefHeight="50.0" prefWidth="200.0" text="New Conversation" />
+   </children>
+</AnchorPane>
