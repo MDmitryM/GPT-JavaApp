@@ -6,6 +6,10 @@ module com.gptjava.gptjava {
     requires com.google.gson;
     requires retrofit2.converter.gson;
 
+    requires service;
+    requires api;
+
+
     opens com.gptjava.gptjava to javafx.fxml;
     exports com.gptjava.gptjava;
 

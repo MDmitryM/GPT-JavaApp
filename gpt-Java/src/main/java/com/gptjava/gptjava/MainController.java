@@ -1,5 +1,7 @@
 package com.gptjava.gptjava;
 
+import com.theokanning.openai.completion.CompletionRequest;
+import com.theokanning.openai.service.OpenAiService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -36,6 +38,16 @@ public class MainController implements Initializable {
         conversationTextArea.clear();
         conversationTextArea.setText(currentConversationText +"User said- \n"+questionTextField.getText()+"\n");
         questionTextField.clear();
+
+        //String token = System.getenv("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");
+        OpenAiService service = new OpenAiService("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");
+
+        CompletionRequest completionRequest = CompletionRequest.builder()
+                .prompt("Somebody once told me the world is gonna roll me")
+                .model("ada")
+                .echo(true)
+                .build();
+        service.createCompletion(completionRequest).getChoices().forEach(System.out::println);
 
     }
     @FXML
