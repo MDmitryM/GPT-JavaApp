@@ -1,12 +1,23 @@
 package com.gptjava.gptjava;
 
+import com.google.gson.Gson;
+import com.gptjava.gptjava.chatgptcontrollers.ChatGptRequest;
+import com.gptjava.gptjava.chatgptcontrollers.ChatGptResponse;
+import com.gptjava.gptjava.chatgptcontrollers.ChatGptService;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -14,6 +25,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 
 
 public class MainController implements Initializable {
@@ -23,12 +38,35 @@ public class MainController implements Initializable {
     @FXML
     public Button sendButton;
     @FXML
-    public void onSendButtonClicked()
-    {
+    public void onSendButtonClicked() {
         String currentConversationText = conversationTextArea.getText();
+        String userQuestion = questionTextField.getText();
+
         conversationTextArea.clear();
-        conversationTextArea.setText(currentConversationText +"User said- \n"+questionTextField.getText()+"\n");
         questionTextField.clear();
+
+        Executor executor = Executors.newCachedThreadPool();
+
+        ChatGptService chatGptService = new Retrofit.Builder()
+                .baseUrl("https://api.openai.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .callbackExecutor(executor)
+                .build()
+                .create(ChatGptService.class);
+
+        CompletableFuture<ChatGptResponse> future = chatGptService.getResponse("Bearer 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",
+                new ChatGptRequest(userQuestion));
+
+        conversationTextArea.appendText("User said- \n" + userQuestion + "\n" + currentConversationText);
+
+        future.thenAcceptAsync(response -> {
+            Gson gson = new Gson();
+            ChatGptResponse gptResponse = gson.fromJson(response.getResponse(), ChatGptResponse.class);
+
+            Platform.runLater(() -> conversationTextArea.appendText("ChatGpt-\n" + gptResponse.getResponse() + "\n"));
+        }, executor);
+
+        //Platform.runLater(() ->
     }
     @FXML
     public Button saveButton;
