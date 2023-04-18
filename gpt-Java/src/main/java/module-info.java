@@ -8,7 +8,5 @@ module com.gptjava.gptjava {
 
     opens com.gptjava.gptjava to javafx.fxml;
     exports com.gptjava.gptjava;
-    exports com.gptjava.gptjava.chatgptcontrollers;
-    //opens com.gptjava.gptjava.chatgptcontrollers;
-    opens com.gptjava.gptjava.chatgptcontrollers to com.google.gson;
+
 }
